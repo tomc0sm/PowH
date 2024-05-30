@@ -202,14 +202,4 @@ function Get-PeFileHeaders {
 
 }
 
-Write-Host "------- NOTEPAD PE32+ ----------"
 
-Get-PeFileHeaders -FilePath "C:\Windows\system32\notepad.exe"
-
-Write-Host "------- PSExec PE32 ----------"
-
-Get-PeFileHeaders -FilePath "C:\Users\tom\Desktop\SysinternalsSuite\PSExec.exe"
-
-Write-Host "------- ADEXPLORER PE32 ----------"
-
-Get-PeFileHeaders -FilePath "C:\Users\tom\Desktop\SysinternalsSuite\ADExplorer.exe"
