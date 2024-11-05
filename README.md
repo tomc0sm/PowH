@@ -96,8 +96,7 @@ OutPut Fields :
 
 #### - T5147\Invoke-RegistryRunKey
 
-
-    MITREATT&CK : [https://attack.mitre.org/techniques/T1543/003/](https://attack.mitre.org/techniques/T1547/001/)
+MITREATT&CK : [https://attack.mitre.org/techniques/T1543/003/](https://attack.mitre.org/techniques/T1547/001/)
 
 Adversaries may achieve persistence by adding a program to a startup folder or referencing it with a Registry run key
 
