@@ -106,23 +106,47 @@ Output fields
 | Path         | Name         | Value       | Type       | PEFileInfos_CompanyName | PEFileInfos_Copyright | PEFileInfos_DateCreation | PEFileInfos_DateModification | PEFileInfos_FileDescription | PEFileInfos_FileVersion | PEFileInfos_OriginalFileName | PEFileInfos_ProductName | PEFileInfos_ProductVersion | PEFileInfos_Sha1 | PEFileInfos_SignatureCertificateThumbprint | PEFileInfos_SignatureCertificateTrusted | PEFileInfos_SignatureStatus | PEFileInfos_SignatureSubject |
 |--------------|--------------|-------------|------------|-------------------------|------------------------|--------------------------|-----------------------------|-----------------------------|--------------------------|-----------------------------|-------------------------|----------------------------|------------------|--------------------------------------------|-----------------------------------------|----------------------------|----------------------------|
 
+<br>
 
-#### T5147-StartupFolder
+#### - T5147\Invoke-StartupFolder
+
+MITRE | ATT&CK: https://attack.mitre.org/techniques/T1543/003/
+
+Adversaries may achieve persistence by adding a program to a startup folder or referencing it with a Registry run key
+
+Output fields: 
+
+| Name         | Path         | TargetPath     | PEFileInfos_CompanyName | PEFileInfos_Copyright | PEFileInfos_DateCreation | PEFileInfos_DateModification | PEFileInfos_FileDescription | PEFileInfos_FileVersion | PEFileInfos_OriginalFileName | PEFileInfos_ProductName | PEFileInfos_ProductVersion | PEFileInfos_Sha1 | PEFileInfos_SignatureCertificateThumbprint | PEFileInfos_SignatureCertificateTrusted | PEFileInfos_SignatureStatus | PEFileInfos_SignatureSubject |
+|--------------|--------------|----------------|-------------------------|------------------------|--------------------------|-----------------------------|-----------------------------|--------------------------|-----------------------------|--------------------------|----------------------------|------------------|--------------------------------------------|-----------------------------------------|----------------------------|----------------------------|
 
 
-#### T5147-Winlogon
+#### - T5147\Invoke-Winlogon
 
+MITRE | ATT&CK: https://attack.mitre.org/techniques/T1547/004/
+
+Adversaries may abuse features of Winlogon to execute DLLs and/or executables when a user logs in
+
+Output fields :
+
+
+| Path         | Name         | Value       | Type       | 0_PEFileInfos_CompanyName | 0_PEFileInfos_Copyright | 0_PEFileInfos_DateCreation | 0_PEFileInfos_DateModification | 0_PEFileInfos_FileDescription | 0_PEFileInfos_FileVersion | 0_PEFileInfos_OriginalFileName | 0_PEFileInfos_ProductName | 0_PEFileInfos_ProductVersion | 0_PEFileInfos_Sha1 | 0_PEFileInfos_SignatureCertificateThumbprint | 0_PEFileInfos_SignatureCertificateTrusted | 0_PEFileInfos_SignatureStatus | 0_PEFileInfos_SignatureSubject |
+|--------------|--------------|-------------|------------|---------------------------|--------------------------|----------------------------|-------------------------------|-------------------------------|----------------------------|-------------------------------|----------------------------|-----------------------------|------------------|----------------------------------------------|-------------------------------------------|------------------------------|----------------------------|
 
 ### Execution 
 
-#### T1204-ExecEventLog
+#### - T1204\Invoke-ExecEventLog
 
 This module provides a list of 4688 events from windows Security Log and automatically enrich datas using PEFileInfo util.   Details depend on Windows Audit Policy Strategy : 
 
 - To log all events creations :  Advanced Audit Policy Configuration ➔ System Audit Policies ➔ Detailed Tracking ➔ Audit Process Creation. Log both Audit and failure
 - To log command lines : Administrative Templates ➔ System ➔  Audit Process Creation. Enable
 
+Output fields : 
 
+| TimeCreated   | SubjectUserSid | SubjectUserName | SubjectDomainName | SubjectLogonId | NewProcessId | NewProcessName | TokenElevationType | ProcessId | CommandLine | TargetUserSid | TargetUserName | TargetDomainName | TargetLogonId | ParentProcessName | MandatoryLabel | New_Process_PEFileInfos_CompanyName | New_Process_PEFileInfos_Copyright | New_Process_PEFileInfos_DateCreation | New_Process_PEFileInfos_DateModification | New_Process_PEFileInfos_FileDescription | New_Process_PEFileInfos_FileVersion | New_Process_PEFileInfos_OriginalFileName | New_Process_PEFileInfos_ProductName | New_Process_PEFileInfos_ProductVersion | New_Process_PEFileInfos_Sha1 | New_Process_PEFileInfos_SignatureCertificateThumbprint | New_Process_PEFileInfos_SignatureCertificateTrusted | New_Process_PEFileInfos_SignatureStatus | New_Process_PEFileInfos_SignatureSubject | Parent_Process_PEFileInfos_CompanyName | Parent_Process_PEFileInfos_Copyright | Parent_Process_PEFileInfos_DateCreation | Parent_Process_PEFileInfos_DateModification | Parent_Process_PEFileInfos_FileDescription | Parent_Process_PEFileInfos_FileVersion | Parent_Process_PEFileInfos_OriginalFileName | Parent_Process_PEFileInfos_ProductName | Parent_Process_PEFileInfos_ProductVersion | Parent_Process_PEFileInfos_Sha1 | Parent_Process_PEFileInfos_SignatureCertificateThumbprint | Parent_Process_PEFileInfos_SignatureCertificateTrusted | Parent_Process_PEFileInfos_SignatureStatus | Parent_Process_PEFileInfos_SignatureSubject |
+|--------------|----------------|-----------------|-------------------|----------------|--------------|----------------|--------------------|-----------|-------------|---------------|----------------|------------------|---------------|-------------------|----------------|-------------------------------------|-----------------------------------|----------------------------------------|----------------------------------------|----------------------------------------|--------------------------------------|----------------------------------------|--------------------------------------|----------------------------------------|--------------------------|-------------------------------------------------------|----------------------------------------------------|----------------------------------------|-------------------------------------|----------------------------------------|----------------------------------------|----------------------------------------|---------------------------------------|----------------------------------------|--------------------------------------|----------------------------------------|--------------------------|-------------------------------------------------------|----------------------------------------------------|----------------------------------------|-------------------------------------|
+
+<br>
   
 
 ## TODO
@@ -131,7 +155,8 @@ This module provides a list of 4688 events from windows Security Log and automat
 - Check if using HKLM:\SYSTEM\CurrentControlSet\Services instead of Get-Service resolve hidden services ?
 - Can't we exploit AppInit.dll datas ? PE Infos ?
 - Can't we exploit WMI datas ? PE infos ?
-- Registry Keys. On Mitre there are many others keys that are not parsed.
-- 
+- Registry Keys. On Mitre there are many others keys we can parse. 
+- T1204\Invoke-Prefetch
+- T1546\Invoke-ComHijacking 
 
 
