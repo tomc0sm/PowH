@@ -65,6 +65,23 @@ Output fields :
 
 #### T5143-Service
 
+ MITREATT&CK : https://attack.mitre.org/techniques/T1543/003/
+
+Adversaries may create or modify Windows services to repeatedly execute malicious payloads as part of persistence.Adversaries may install a new service or modify an existing service to execute at startup in order to persist on a system.Adversaries may also use services to install and execute malicious drivers. Services may be created with administrator privileges but are executed under SYSTEM privileges, so an adversary may also use a service to escalate privileges.To make detection analysis more challenging, malicious services may also incorporate Masquerade Task or Service (ex: using a service and/or payload name related to a legitimate OS or benign software component). Adversaries may also create ‘hidden’ services (i.e., Hide Artifacts), for example by using the sc sdset command to set service permissions via the Service Descriptor Definition Language (SDDL). **This may hide a Windows service from the view of standard service enumeration methods such as Get-Service, sc query, and services.exe**
+
+ <br>
+
+Datas are enriched with PEFileInfos module, analyzing the task target executable file. 
+
+<br> 
+
+Output fields : 
+
+<br>
+
+| ImagePath        | Type   | Start | ErrorControl | DisplayName | Owners | Group | PSPath         | PSParentPath    | PSChildName | PSProvider | DecodedType | PEFileInfos_Length |
+|------------------|--------|-------|--------------|-------------|--------|-------|----------------|-----------------|-------------|------------|-------------|---------------------|
+
 
 #### T5146-AppInitDLL
 
