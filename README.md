@@ -21,7 +21,7 @@ mkdir .\Output\Execution
 
 ### Persistence
 
-#### T1197/Invoke-BitsJobs
+#### T1197\Invoke-BitsJobs
 
 MITREATT&CK : https://attack.mitre.org/techniques/T1197/
 
@@ -40,7 +40,7 @@ Output fields:
  
 <br>
 
-#### T5103-ScheduledTask
+#### T5103\Invoke-ScheduledTask
 
  MITREATT&CK : https://attack.mitre.org/techniques/T1053/005/
 
