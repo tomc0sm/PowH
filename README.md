@@ -155,7 +155,7 @@ Output fields:
 | TimeCreated | SubjectUserSid | SubjectUserName | SubjectDomainName | SubjectLogonId | NewProcessId | NewProcessName | TokenElevationType | ProcessId | CommandLine | TargetUserSid | TargetUserName | TargetDomainName | TargetLogonId | ParentProcessName | MandatoryLabel | New_Process_PEFileInfos_CompanyName | New_Process_PEFileInfos_Copyright | New_Process_PEFileInfos_DateCreation | New_Process_PEFileInfos_DateModification | New_Process_PEFileInfos_FileDescription | New_Process_PEFileInfos_FileVersion | New_Process_PEFileInfos_OriginalFileName | New_Process_PEFileInfos_ProductName | New_Process_PEFileInfos_ProductVersion | New_Process_PEFileInfos_Sha1 | New_Process_PEFileInfos_SignatureCertificateThumbprint | New_Process_PEFileInfos_SignatureCertificateTrusted | New_Process_PEFileInfos_SignatureStatus | New_Process_PEFileInfos_SignatureSubject |
 |-------------|----------------|-----------------|-------------------|----------------|--------------|----------------|--------------------|-----------|-------------|---------------|----------------|------------------|---------------|-------------------|----------------|-------------------------------------|-----------------------------------|----------------------------------------|----------------------------------------|----------------------------------------|--------------------------------------|----------------------------------------|--------------------------------------|----------------------------------------|------------------------------|-------------------------------------------------------|----------------------------------------------------|----------------------------------------|----------------------------------------|
 
-  
+<br>
 
 ## TODO
 
