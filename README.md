@@ -23,7 +23,7 @@ mkdir .\Output\Execution
 
 #### - T1197\Invoke-BitsJobs
 
-MITREATT&CK : https://attack.mitre.org/techniques/T1197/
+MITRE | ATT&CK : https://attack.mitre.org/techniques/T1197/
 
 Adversaries may abuse BITS jobs to persistently execute code and perform various background tasks. Adversaries may abuse BITS to download (e.g. Ingress Tool Transfer), execute, and even clean up after running malicious code (e.g. Indicator Removal). 
 
@@ -36,7 +36,7 @@ Adversaries may abuse BITS jobs to persistently execute code and perform various
 
 #### - T5103\Invoke-ScheduledTask
 
- MITREATT&CK : https://attack.mitre.org/techniques/T1053/005/
+MITRE | ATT&CK&CK : https://attack.mitre.org/techniques/T1053/005/
 
 Adversaries may abuse the Windows Task Scheduler to perform task scheduling for initial or recurring execution of malicious code. An adversary may use Windows Task Scheduler to execute programs at system startup or on a scheduled basis for persistence.Adversaries may also create "hidden" scheduled tasks (i.e. Hide Artifacts) that may not be visible to defender tools and manual queries used to enumerate tasks.
 
@@ -50,7 +50,7 @@ Output fields :
 
 #### - T5143\Invoke-Service
 
- MITREATT&CK : https://attack.mitre.org/techniques/T1543/003/
+MITRE | ATT&CK : https://attack.mitre.org/techniques/T1543/003/
 
 Adversaries may create or modify Windows services to repeatedly execute malicious payloads as part of persistence.Adversaries may install a new service or modify an existing service to execute at startup in order to persist on a system.Adversaries may also use services to install and execute malicious drivers. Services may be created with administrator privileges but are executed under SYSTEM privileges. Adversaries may also create ‘hidden’ services (i.e., Hide Artifacts), for example by using the sc sdset command to set service permissions via the Service Descriptor Definition Language (SDDL). **This may hide a Windows service from the view of standard service enumeration methods such as Get-Service, sc query, and services.exe**
 
@@ -67,7 +67,7 @@ Output fields :
 
 #### - T5146\Invoke-AppInitDLL
 
- MITREATT&CK : https://attack.mitre.org/techniques/T1546/010/
+MITRE | ATT&CK : https://attack.mitre.org/techniques/T1546/010/
 
  Adversaries may establish persistence and/or elevate privileges by executing malicious content triggered by AppInit DLLs loaded into processes. Dynamic-link libraries (DLLs) that are specified in the AppInit_DLLs are loaded by user32.dll into every process that loads user32.dll
 
@@ -82,7 +82,7 @@ Output fields:
 #### - T5146\Invoke-WMIEventSubscription
 
 
-MITREATT&CK :https://attack.mitre.org/techniques/T1546/003/
+MITRE | ATT&CK :https://attack.mitre.org/techniques/T1546/003/
 
 Adversaries may establish persistence and elevate privileges by executing malicious content triggered by a Windows Management Instrumentation (WMI) event subscription. WMI can be used to install event filters, providers, consumers, and bindings that execute code when a defined event occurs. Adversaries may use the capabilities of WMI to subscribe to an event and execute arbitrary code when that event occurs, providing persistence on a system. WMI subscription execution is proxied by the WMI Provider Host process (WmiPrvSe.exe) and thus may result in elevated SYSTEM privileges.
 
@@ -96,7 +96,7 @@ OutPut Fields :
 
 #### - T5147\Invoke-RegistryRunKey
 
-MITREATT&CK : [https://attack.mitre.org/techniques/T1543/003/](https://attack.mitre.org/techniques/T1547/001/)
+MITRE | ATT&CK: [https://attack.mitre.org/techniques/T1543/003/](https://attack.mitre.org/techniques/T1547/001/)
 
 Adversaries may achieve persistence by adding a program to a startup folder or referencing it with a Registry run key
 
