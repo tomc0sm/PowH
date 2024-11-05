@@ -60,7 +60,7 @@ Output fields :
 
  MITREATT&CK : https://attack.mitre.org/techniques/T1543/003/
 
-Adversaries may create or modify Windows services to repeatedly execute malicious payloads as part of persistence.Adversaries may install a new service or modify an existing service to execute at startup in order to persist on a system.Adversaries may also use services to install and execute malicious drivers. Services may be created with administrator privileges but are executed under SYSTEM privileges, so an adversary may also use a service to escalate privileges.To make detection analysis more challenging, malicious services may also incorporate Masquerade Task or Service (ex: using a service and/or payload name related to a legitimate OS or benign software component). Adversaries may also create ‘hidden’ services (i.e., Hide Artifacts), for example by using the sc sdset command to set service permissions via the Service Descriptor Definition Language (SDDL). **This may hide a Windows service from the view of standard service enumeration methods such as Get-Service, sc query, and services.exe**
+Adversaries may create or modify Windows services to repeatedly execute malicious payloads as part of persistence.Adversaries may install a new service or modify an existing service to execute at startup in order to persist on a system.Adversaries may also use services to install and execute malicious drivers. Services may be created with administrator privileges but are executed under SYSTEM privileges. Adversaries may also create ‘hidden’ services (i.e., Hide Artifacts), for example by using the sc sdset command to set service permissions via the Service Descriptor Definition Language (SDDL). **This may hide a Windows service from the view of standard service enumeration methods such as Get-Service, sc query, and services.exe**
 
 
 Datas are enriched with PEFileInfos module, analyzing the task target executable file. 
@@ -80,7 +80,7 @@ Output fields :
 
  MITREATT&CK : https://attack.mitre.org/techniques/T1546/010/
 
- Adversaries may establish persistence and/or elevate privileges by executing malicious content triggered by AppInit DLLs loaded into processes. Dynamic-link libraries (DLLs) that are specified in the AppInit_DLLs value in the Registry keys HKEY_LOCAL_MACHINE\Software\Microsoft\Windows NT\CurrentVersion\Windows or HKEY_LOCAL_MACHINE\Software\Wow6432Node\Microsoft\Windows NT\CurrentVersion\Windows are loaded by user32.dll into every process that loads user32.dll
+ Adversaries may establish persistence and/or elevate privileges by executing malicious content triggered by AppInit DLLs loaded into processes. Dynamic-link libraries (DLLs) that are specified in the AppInit_DLLs are loaded by user32.dll into every process that loads user32.dll
 
 
 Output fields: 
@@ -89,7 +89,10 @@ Output fields:
 |------|------|-------|------|
  
 
-#### T5146-WMIEventSubscription
+#### - T5146\Invoke-WMIEventSubscription
+
+
+MITREATT&CK :https://attack.mitre.org/techniques/T1546/003/
 
 
 #### T5141-RegistryRunKey
@@ -116,6 +119,8 @@ This module provides a list of 4688 events from windows Security Log and automat
 ## TODO
 
 - Service PE file Infos is incomplete. Add missing columns.
-- Check if using HKLM:\SYSTEM\CurrentControlSet\Services instead of Get-Service resolve hidden services ? 
+- Check if using HKLM:\SYSTEM\CurrentControlSet\Services instead of Get-Service resolve hidden services ?
+- Can't we exploit AppInit.dll datas ? Pe Infos ?
+- 
 
 
