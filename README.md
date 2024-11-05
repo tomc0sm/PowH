@@ -28,10 +28,6 @@ MITREATT&CK : https://attack.mitre.org/techniques/T1197/
 Adversaries may abuse BITS jobs to persistently execute code and perform various background tasks. Adversaries may abuse BITS to download (e.g. Ingress Tool Transfer), execute, and even clean up after running malicious code (e.g. Indicator Removal). 
 
 
-Output fields: 
-
-
-
 | CertificateHash | CertificateStoreLocation | CertificateStoreName | CertificateSubjectName | CreationTime       | CustomHeaders | Description    | DisplayName | Dynamic | ErrorCondition    | ErrorContext                                                                                                                                                                                           | ErrorContextDescription                                                                                                                                                                                          | ErrorDescription | FileList | FilesTotal | FilesTransferred | HttpMethod | InternalErrorCode | JobId                                  | JobState       | MaxDownloadTime | ModificationTime   | NotifyCmdLine | NotifyFlags             | OwnerAccount               | Priority  | ProxyBypassList | ProxyList | ProxyUsage    | RetryInterval | RetryTimeout | SecurityFlags              | TransferCompletionTime | TransferPolicy | TransferType | TransientErrorCount |
 |-----------------|--------------------------|----------------------|------------------------|--------------------|---------------|----------------|-------------|---------|-------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|-------------------|----------|------------|------------------|------------|-------------------|----------------------------------------|----------------|----------------|--------------------|---------------|-------------------------|---------------------------|-----------|-----------------|-----------|---------------|---------------|--------------|----------------------------|-------------------------|----------------|--------------|---------------------|
 
@@ -43,10 +39,6 @@ Output fields:
  MITREATT&CK : https://attack.mitre.org/techniques/T1053/005/
 
 Adversaries may abuse the Windows Task Scheduler to perform task scheduling for initial or recurring execution of malicious code. An adversary may use Windows Task Scheduler to execute programs at system startup or on a scheduled basis for persistence.Adversaries may also create "hidden" scheduled tasks (i.e. Hide Artifacts) that may not be visible to defender tools and manual queries used to enumerate tasks.
-
-
-Datas are enriched with PEFileInfos module, analyzing the task target executable file. 
-
 
 Output fields : 
 
@@ -61,9 +53,6 @@ Output fields :
  MITREATT&CK : https://attack.mitre.org/techniques/T1543/003/
 
 Adversaries may create or modify Windows services to repeatedly execute malicious payloads as part of persistence.Adversaries may install a new service or modify an existing service to execute at startup in order to persist on a system.Adversaries may also use services to install and execute malicious drivers. Services may be created with administrator privileges but are executed under SYSTEM privileges. Adversaries may also create ‘hidden’ services (i.e., Hide Artifacts), for example by using the sc sdset command to set service permissions via the Service Descriptor Definition Language (SDDL). **This may hide a Windows service from the view of standard service enumeration methods such as Get-Service, sc query, and services.exe**
-
-
-Datas are enriched with PEFileInfos module, analyzing the task target executable file. 
 
 
 Output fields : 
@@ -87,15 +76,36 @@ Output fields:
 
 | Path | Name | Value | Type |
 |------|------|-------|------|
- 
+
+ <br>
 
 #### - T5146\Invoke-WMIEventSubscription
 
 
 MITREATT&CK :https://attack.mitre.org/techniques/T1546/003/
 
+Adversaries may establish persistence and elevate privileges by executing malicious content triggered by a Windows Management Instrumentation (WMI) event subscription. WMI can be used to install event filters, providers, consumers, and bindings that execute code when a defined event occurs. Adversaries may use the capabilities of WMI to subscribe to an event and execute arbitrary code when that event occurs, providing persistence on a system. WMI subscription execution is proxied by the WMI Provider Host process (WmiPrvSe.exe) and thus may result in elevated SYSTEM privileges.
 
-#### T5141-RegistryRunKey
+OutPut Fields : 
+
+| Name | __RELPATH | PSComputerName | __CLASS | __SUPERCLASS | __NAMESPACE | __PATH | Consumer | Filter | CommandLineTemplate | ExecutablePath | Query |
+|------|-----------|----------------|---------|--------------|-------------|--------|----------|--------|---------------------|----------------|-------|
+
+
+<br> 
+
+#### - T5147\Invoke-RegistryRunKey
+
+
+    MITREATT&CK : [https://attack.mitre.org/techniques/T1543/003/](https://attack.mitre.org/techniques/T1547/001/)
+
+Adversaries may achieve persistence by adding a program to a startup folder or referencing it with a Registry run key
+
+
+Output fields 
+
+| Path         | Name         | Value       | Type       | PEFileInfos_CompanyName | PEFileInfos_Copyright | PEFileInfos_DateCreation | PEFileInfos_DateModification | PEFileInfos_FileDescription | PEFileInfos_FileVersion | PEFileInfos_OriginalFileName | PEFileInfos_ProductName | PEFileInfos_ProductVersion | PEFileInfos_Sha1 | PEFileInfos_SignatureCertificateThumbprint | PEFileInfos_SignatureCertificateTrusted | PEFileInfos_SignatureStatus | PEFileInfos_SignatureSubject |
+|--------------|--------------|-------------|------------|-------------------------|------------------------|--------------------------|-----------------------------|-----------------------------|--------------------------|-----------------------------|-------------------------|----------------------------|------------------|--------------------------------------------|-----------------------------------------|----------------------------|----------------------------|
 
 
 #### T5147-StartupFolder
@@ -120,7 +130,9 @@ This module provides a list of 4688 events from windows Security Log and automat
 
 - Service PE file Infos is incomplete. Add missing columns.
 - Check if using HKLM:\SYSTEM\CurrentControlSet\Services instead of Get-Service resolve hidden services ?
-- Can't we exploit AppInit.dll datas ? Pe Infos ?
+- Can't we exploit AppInit.dll datas ? PE Infos ?
+- Can't we exploit WMI datas ? PE infos ?
+- Registry Keys. On Mitre there are many others keys that are not parsed.
 - 
 
 
