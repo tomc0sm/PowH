@@ -63,7 +63,7 @@ Output fields :
 
 
 
-#### T5143-Service
+#### T5143\Invoke-Service
 
  MITREATT&CK : https://attack.mitre.org/techniques/T1543/003/
 
@@ -85,6 +85,15 @@ Output fields :
 
 #### T5146-AppInitDLL
 
+ MITREATT&CK : https://attack.mitre.org/techniques/T1546/010/
+
+ Adversaries may establish persistence and/or elevate privileges by executing malicious content triggered by AppInit DLLs loaded into processes. Dynamic-link libraries (DLLs) that are specified in the AppInit_DLLs value in the Registry keys HKEY_LOCAL_MACHINE\Software\Microsoft\Windows NT\CurrentVersion\Windows or HKEY_LOCAL_MACHINE\Software\Wow6432Node\Microsoft\Windows NT\CurrentVersion\Windows are loaded by user32.dll into every process that loads user32.dll
+
+
+Output fields: 
+
+| Path | Name | Value | Type |
+ 
 
 #### T5146-WMIEventSubscription
 
@@ -107,8 +116,12 @@ This module provides a list of 4688 events from windows Security Log and automat
 - To log all events creations :  Advanced Audit Policy Configuration ➔ System Audit Policies ➔ Detailed Tracking ➔ Audit Process Creation. Log both Audit and failure
 - To log command lines : Administrative Templates ➔ System ➔  Audit Process Creation. Enable
 
+
   
 
+## TODO
 
+- Service PE file Infos is incomplete. Add missing columns.
+- Check if using HKLM:\SYSTEM\CurrentControlSet\Services instead of Get-Service resolve hidden services ? 
 
 
