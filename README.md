@@ -21,14 +21,28 @@ mkdir .\Output\Execution
 
 ### Persistence
 
-- T1197-BitsJobs
-- T5103-ScheduledTask
-- T5143-Service
-- T5146-AppInitDLL
-- T5146-WMIEventSubscription
-- T5141-RegistryRunKey
-- T5147-StartupFolder
-- T5147-Winlogon
+#### T1197-BitsJobs
+
+
+#### T5103-ScheduledTask
+
+
+#### T5143-Service
+
+
+#### T5146-AppInitDLL
+
+
+#### T5146-WMIEventSubscription
+
+
+#### T5141-RegistryRunKey
+
+
+#### T5147-StartupFolder
+
+
+#### T5147-Winlogon
 
 
 ### Execution 
@@ -44,10 +58,4 @@ This module provides a list of 4688 events from windows Security Log and automat
 
 
 
-
-
-
-
-
-### Execution 
 
