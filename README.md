@@ -27,18 +27,15 @@ MITREATT&CK : https://attack.mitre.org/techniques/T1197/
 
 Adversaries may abuse BITS jobs to persistently execute code and perform various background tasks. Adversaries may abuse BITS to download (e.g. Ingress Tool Transfer), execute, and even clean up after running malicious code (e.g. Indicator Removal). 
 
-<br>
 
 Output fields: 
 
-<br>
 
 
 | CertificateHash | CertificateStoreLocation | CertificateStoreName | CertificateSubjectName | CreationTime       | CustomHeaders | Description    | DisplayName | Dynamic | ErrorCondition    | ErrorContext                                                                                                                                                                                           | ErrorContextDescription                                                                                                                                                                                          | ErrorDescription | FileList | FilesTotal | FilesTransferred | HttpMethod | InternalErrorCode | JobId                                  | JobState       | MaxDownloadTime | ModificationTime   | NotifyCmdLine | NotifyFlags             | OwnerAccount               | Priority  | ProxyBypassList | ProxyList | ProxyUsage    | RetryInterval | RetryTimeout | SecurityFlags              | TransferCompletionTime | TransferPolicy | TransferType | TransientErrorCount |
 |-----------------|--------------------------|----------------------|------------------------|--------------------|---------------|----------------|-------------|---------|-------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|-------------------|----------|------------|------------------|------------|-------------------|----------------------------------------|----------------|----------------|--------------------|---------------|-------------------------|---------------------------|-----------|-----------------|-----------|---------------|---------------|--------------|----------------------------|-------------------------|----------------|--------------|---------------------|
 
  
-<br>
 
 #### - T5103\Invoke-ScheduledTask
 
@@ -46,20 +43,15 @@ Output fields:
 
 Adversaries may abuse the Windows Task Scheduler to perform task scheduling for initial or recurring execution of malicious code. An adversary may use Windows Task Scheduler to execute programs at system startup or on a scheduled basis for persistence.Adversaries may also create "hidden" scheduled tasks (i.e. Hide Artifacts) that may not be visible to defender tools and manual queries used to enumerate tasks.
 
-<br>
 
 Datas are enriched with PEFileInfos module, analyzing the task target executable file. 
 
-<br> 
 
 Output fields : 
 
-<br>
 
 | TaskName | TaskPath | RegistrationInfo_Version | RegistrationInfo_Description | RegistrationInfo_URI | Triggers_LogonTrigger_Enabled | Triggers_CalendarTrigger_StartBoundary | Triggers_CalendarTrigger_Enabled | Triggers_CalendarTrigger_ScheduleByDay_DaysInterval | Principals_Principal_UserId | Principals_Principal_RunLevel | Settings_MultipleInstancesPolicy | Settings_DisallowStartIfOnBatteries | Settings_StopIfGoingOnBatteries | Settings_AllowHardTerminate | Settings_StartWhenAvailable | Settings_RunOnlyIfNetworkAvailable | Settings_IdleSettings_Duration | Settings_IdleSettings_WaitTimeout | Settings_IdleSettings_StopOnIdleEnd | Settings_IdleSettings_RestartOnIdle | Settings_AllowStartOnDemand | Settings_Enabled | Settings_Hidden | Settings_RunOnlyIfIdle | Settings_DisallowStartOnRemoteAppSession | Settings_UseUnifiedSchedulingEngine | Settings_WakeToRun | Settings_ExecutionTimeLimit | Settings_Priority | Actions_Exec_Command | Actions_Exec_Arguments | PEFileInfos_CompanyName | PEFileInfos_Copyright | PEFileInfos_DateCreation | PEFileInfos_DateModification | PEFileInfos_FileDescription | PEFileInfos_FileVersion | PEFileInfos_OriginalFileName | PEFileInfos_ProductName | PEFileInfos_ProductVersion | PEFileInfos_Sha1 | PEFileInfos_SignatureCertificateThumbprint | PEFileInfos_SignatureCertificateTrusted | PEFileInfos_SignatureStatus | PEFileInfos_SignatureSubject |
 |----------|----------|--------------------------|-------------------------------|----------------------|-------------------------------|----------------------------------------|----------------------------------|-----------------------------------------------|-----------------------------|------------------------------|-------------------------------|-----------------------------------|---------------------------------|-----------------------------|------------------------------|-----------------------------------|-----------------------------|--------------------------------|-----------------------------|----------------------------|-------------------|----------------|---------------------|-------------------------------------|----------------------------------|------------------|--------------------------|-----------------|-------------------|--------------------|---------------------|--------------------|----------------------|------------------------|----------------------|------------------|---------------------|---------------------|-------------------|--------------------------|------------------|--------------------------------------|---------------------------------|----------------------|----------------------|
-
-<br> 
 
 
 
@@ -69,15 +61,13 @@ Output fields :
 
 Adversaries may create or modify Windows services to repeatedly execute malicious payloads as part of persistence.Adversaries may install a new service or modify an existing service to execute at startup in order to persist on a system.Adversaries may also use services to install and execute malicious drivers. Services may be created with administrator privileges but are executed under SYSTEM privileges, so an adversary may also use a service to escalate privileges.To make detection analysis more challenging, malicious services may also incorporate Masquerade Task or Service (ex: using a service and/or payload name related to a legitimate OS or benign software component). Adversaries may also create ‘hidden’ services (i.e., Hide Artifacts), for example by using the sc sdset command to set service permissions via the Service Descriptor Definition Language (SDDL). **This may hide a Windows service from the view of standard service enumeration methods such as Get-Service, sc query, and services.exe**
 
- <br>
 
 Datas are enriched with PEFileInfos module, analyzing the task target executable file. 
 
-<br> 
 
 Output fields : 
 
-<br>
+
 
 | ImagePath        | Type   | Start | ErrorControl | DisplayName | Owners | Group | PSPath         | PSParentPath    | PSChildName | PSProvider | DecodedType | PEFileInfos_Length |
 |------------------|--------|-------|--------------|-------------|--------|-------|----------------|-----------------|-------------|------------|-------------|---------------------|
