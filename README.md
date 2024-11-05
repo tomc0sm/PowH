@@ -165,6 +165,7 @@ Output fields:
 - Can't we exploit WMI datas ? PE infos ?
 - Registry Keys. On Mitre there are many others keys we can parse. 
 - T1204\Invoke-Prefetch
-- T1546\Invoke-ComHijacking 
+- T1546\Invoke-ComHijacking
+- Browser Extensions 
 
 
