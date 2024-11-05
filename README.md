@@ -56,7 +56,7 @@ Output fields :
 
 <br>
 
-#### T5143\Invoke-Service
+#### - T5143\Invoke-Service
 
  MITREATT&CK : https://attack.mitre.org/techniques/T1543/003/
 
@@ -76,7 +76,7 @@ Output fields :
 
 <br>
 
-#### T5146\Invoke-AppInitDLL
+#### - T5146\Invoke-AppInitDLL
 
  MITREATT&CK : https://attack.mitre.org/techniques/T1546/010/
 
