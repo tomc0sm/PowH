@@ -163,7 +163,8 @@ Output fields:
 - Check if using HKLM:\SYSTEM\CurrentControlSet\Services instead of Get-Service resolve hidden services ?
 - Can't we exploit AppInit.dll datas ? PE Infos ?
 - Can't we exploit WMI datas ? PE infos ?
-- Registry Keys. On Mitre there are many others keys we can parse. 
+- Registry Keys. On Mitre there are many others keys we can parse.
+- Registry Keys: Errors key not exists on execution
 - T1204\Invoke-Prefetch
 - T1546\Invoke-ComHijacking
 - Browser Extensions 
