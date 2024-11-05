@@ -25,8 +25,6 @@ mkdir .\Output\Execution
 
 MITREATT&CK : https://attack.mitre.org/techniques/T1197/
 
-<br>
-
 Adversaries may abuse BITS jobs to persistently execute code and perform various background tasks. Adversaries may abuse BITS to download (e.g. Ingress Tool Transfer), execute, and even clean up after running malicious code (e.g. Indicator Removal). 
 
 <br>
