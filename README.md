@@ -131,11 +131,30 @@ Adversaries may abuse features of Winlogon to execute DLLs and/or executables wh
 Output fields :
 
 
-| TimeCreated | SubjectUserSid | SubjectUserName | SubjectDomainName | SubjectLogonId | NewProcessId | NewProcessName | TokenElevationType | ProcessId | CommandLine | TargetUserSid | TargetUserName | TargetDomainName | TargetLogonId | ParentProcessName | MandatoryLabel | New_Process_PEFileInfos_CompanyName | New_Process_PEFileInfos_Copyright | New_Process_PEFileInfos_DateCreation | New_Process_PEFileInfos_DateModification | New_Process_PEFileInfos_FileDescription | New_Process_PEFileInfos_FileVersion | New_Process_PEFileInfos_OriginalFileName | New_Process_PEFileInfos_ProductName | New_Process_PEFileInfos_ProductVersion | New_Process_PEFileInfos_Sha1 | New_Process_PEFileInfos_SignatureCertificateThumbprint | New_Process_PEFileInfos_SignatureCertificateTrusted | New_Process_PEFileInfos_SignatureStatus | New_Process_PEFileInfos_SignatureSubject |
-|-------------|----------------|-----------------|-------------------|----------------|--------------|----------------|--------------------|-----------|-------------|---------------|----------------|------------------|---------------|-------------------|----------------|-------------------------------------|-----------------------------------|----------------------------------------|----------------------------------------|----------------------------------------|--------------------------------------|----------------------------------------|--------------------------------------|----------------------------------------|------------------------------|-------------------------------------------------------|----------------------------------------------------|----------------------------------------|----------------------------------------|
+| Path         | Name         | Value       | Type       | 0_PEFileInfos_CompanyName | 0_PEFileInfos_Copyright | 0_PEFileInfos_DateCreation | 0_PEFileInfos_DateModification | 0_PEFileInfos_FileDescription | 0_PEFileInfos_FileVersion | 0_PEFileInfos_OriginalFileName | 0_PEFileInfos_ProductName | 0_PEFileInfos_ProductVersion | 0_PEFileInfos_Sha1 | 0_PEFileInfos_SignatureCertificateThumbprint | 0_PEFileInfos_SignatureCertificateTrusted | 0_PEFileInfos_SignatureStatus | 0_PEFileInfos_SignatureSubject |
+|--------------|--------------|-------------|------------|---------------------------|--------------------------|----------------------------|-------------------------------|-------------------------------|----------------------------|-------------------------------|----------------------------|-----------------------------|------------------|----------------------------------------------|-------------------------------------------|------------------------------|----------------------------|
 
 
 <br>
+
+
+## Execution 
+
+### - T1204\Invoke-ExecEventLog
+
+MITRE | ATT&CK: https://attack.mitre.org/techniques/T1547/004/
+
+Event 4688 of Security Log depends on Audit Policy Configuration
+
+- Advanced Audit Policy Configuration ➔ System Audit Policies ➔ Detailed Tracking.
+- Computer Configuration ➔ Administrative Templates ➔ System ➔ Audit Process Creation
+
+Output fields: 
+
+
+| TimeCreated | SubjectUserSid | SubjectUserName | SubjectDomainName | SubjectLogonId | NewProcessId | NewProcessName | TokenElevationType | ProcessId | CommandLine | TargetUserSid | TargetUserName | TargetDomainName | TargetLogonId | ParentProcessName | MandatoryLabel | New_Process_PEFileInfos_CompanyName | New_Process_PEFileInfos_Copyright | New_Process_PEFileInfos_DateCreation | New_Process_PEFileInfos_DateModification | New_Process_PEFileInfos_FileDescription | New_Process_PEFileInfos_FileVersion | New_Process_PEFileInfos_OriginalFileName | New_Process_PEFileInfos_ProductName | New_Process_PEFileInfos_ProductVersion | New_Process_PEFileInfos_Sha1 | New_Process_PEFileInfos_SignatureCertificateThumbprint | New_Process_PEFileInfos_SignatureCertificateTrusted | New_Process_PEFileInfos_SignatureStatus | New_Process_PEFileInfos_SignatureSubject |
+|-------------|----------------|-----------------|-------------------|----------------|--------------|----------------|--------------------|-----------|-------------|---------------|----------------|------------------|---------------|-------------------|----------------|-------------------------------------|-----------------------------------|----------------------------------------|----------------------------------------|----------------------------------------|--------------------------------------|----------------------------------------|--------------------------------------|----------------------------------------|------------------------------|-------------------------------------------------------|----------------------------------------------------|----------------------------------------|----------------------------------------|
+
   
 
 ## TODO
