@@ -21,11 +21,27 @@ mkdir .\Output\Execution
 
 ### Persistence
 
+#### - T1037\Invoke-LogonScripts
+
+MITRE | ATT&CK : https://attack.mitre.org/techniques/T1037/001/
+
+Adversaries may use Windows logon scripts automatically executed at logon initialization to establish persistence.This is done via adding a path to a script to the 
+
+- HKCU\Environment\UserInitMprLogonScript Registry key
+
+
+Output fields
+
+//todo 
+
+
 #### - T1197\Invoke-BitsJobs
 
 MITRE | ATT&CK : https://attack.mitre.org/techniques/T1197/
 
 Adversaries may abuse BITS jobs to persistently execute code and perform various background tasks. Adversaries may abuse BITS to download (e.g. Ingress Tool Transfer), execute, and even clean up after running malicious code (e.g. Indicator Removal). 
+
+Output fields
 
 
 | CertificateHash | CertificateStoreLocation | CertificateStoreName | CertificateSubjectName | CreationTime       | CustomHeaders | Description    | DisplayName | Dynamic | ErrorCondition    | ErrorContext                                                                                                                                                                                           | ErrorContextDescription                                                                                                                                                                                          | ErrorDescription | FileList | FilesTotal | FilesTransferred | HttpMethod | InternalErrorCode | JobId                                  | JobState       | MaxDownloadTime | ModificationTime   | NotifyCmdLine | NotifyFlags             | OwnerAccount               | Priority  | ProxyBypassList | ProxyList | ProxyUsage    | RetryInterval | RetryTimeout | SecurityFlags              | TransferCompletionTime | TransferPolicy | TransferType | TransientErrorCount |
@@ -69,7 +85,12 @@ Output fields :
 
 MITRE | ATT&CK : https://attack.mitre.org/techniques/T1546/010/
 
- Adversaries may establish persistence and/or elevate privileges by executing malicious content triggered by AppInit DLLs loaded into processes. Dynamic-link libraries (DLLs) that are specified in the AppInit_DLLs are loaded by user32.dll into every process that loads user32.dll
+ Adversaries may establish persistence and/or elevate privileges by executing malicious content triggered by AppInit DLLs loaded into processes. Dynamic-link libraries (DLLs) that are specified in the AppInit_DLLs are loaded by user32.dll into every process that loads user32.dll. 
+
+ This is done by adding the Registry keys : 
+
+ - HKEY_LOCAL_MACHINE\Software\Microsoft\Windows NT\CurrentVersion\Windows
+ - HKEY_LOCAL_MACHINE\Software\Wow6432Node\Microsoft\Windows NT\CurrentVersion\Windows
 
 
 Output fields: 
@@ -96,9 +117,19 @@ OutPut Fields :
 
 #### - T5147\Invoke-RegistryRunKey
 
-MITRE | ATT&CK: [https://attack.mitre.org/techniques/T1543/003/](https://attack.mitre.org/techniques/T1547/001/)
+MITRE | ATT&CK: https://attack.mitre.org/techniques/T1543/003/
 
 Adversaries may achieve persistence by adding a program to a startup folder or referencing it with a Registry run key
+
+This done by adding the registry keys 
+
+- HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Run
+- HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\RunOnce
+- HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\RunOnceEx
+- HKEY_LOCAL_MACHINE\Software\Microsoft\Windows\CurrentVersion\Run
+- HKEY_LOCAL_MACHINE\Software\Microsoft\Windows\CurrentVersion\RunOnce
+- HKEY_LOCAL_MACHINE\Software\Microsoft\Windows\CurrentVersion\RunOnceEx
+
 
 
 Output fields 
@@ -114,6 +145,11 @@ MITRE | ATT&CK: https://attack.mitre.org/techniques/T1543/003/
 
 Adversaries may achieve persistence by adding a program to a startup folder or referencing it with a Registry run key
 
+The startup folders are : 
+
+- %userdir%\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\Startup. 
+- C:\ProgramData\Microsoft\Windows\Start Menu\Programs\StartUp
+
 Output fields: 
 
 | Name         | Path         | TargetPath     | PEFileInfos_CompanyName | PEFileInfos_Copyright | PEFileInfos_DateCreation | PEFileInfos_DateModification | PEFileInfos_FileDescription | PEFileInfos_FileVersion | PEFileInfos_OriginalFileName | PEFileInfos_ProductName | PEFileInfos_ProductVersion | PEFileInfos_Sha1 | PEFileInfos_SignatureCertificateThumbprint | PEFileInfos_SignatureCertificateTrusted | PEFileInfos_SignatureStatus | PEFileInfos_SignatureSubject |
@@ -126,7 +162,19 @@ Output fields:
 
 MITRE | ATT&CK: https://attack.mitre.org/techniques/T1547/004/
 
-Adversaries may abuse features of Winlogon to execute DLLs and/or executables when a user logs in
+Adversaries may abuse features of Winlogon to execute DLLs and/or executables when a user logs in.
+
+This done by adding the Registry keys : 
+
+- HKLM\Software[\Wow6432Node\]\Microsoft\Windows NT\CurrentVersion\Winlogon\ 
+- HKCU\Software\Microsoft\Windows NT\CurrentVersion\Winlogon\
+
+Specifically, the following subkeys have been known to be possibly vulnerable to abuse:
+
+- Winlogon\Notify - points to notification package DLLs that handle Winlogon events
+- Winlogon\Userinit - points to userinit.exe, the user initialization program executed when a user logs on
+- Winlogon\Shell - points to explorer.exe, the system shell executed when a user logs on
+<br>
 
 Output fields :
 
