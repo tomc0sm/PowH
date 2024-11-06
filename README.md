@@ -167,6 +167,7 @@ Output fields:
 - Registry Keys. On Mitre there are many others keys we can parse.
 - Registry Keys: Errors key not exists on execution
 - T1204\Invoke-Prefetch
+- T1204\Invoke-RunningProcess
 - T1546\Invoke-ComHijacking
 - Browser Extensions 
 
