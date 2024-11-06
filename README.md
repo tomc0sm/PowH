@@ -32,7 +32,8 @@ Adversaries may use Windows logon scripts automatically executed at logon initia
 
 Output fields
 
-//todo 
+| Path | Name | Value | Type | FileInfo_CompanyName | FileInfo_Copyright | FileInfo_DateCreation | FileInfo_DateModification | FileInfo_FileDescription | FileInfo_FileVersion | FileInfo_OriginalFileName | FileInfo_ProductName | FileInfo_ProductVersion | FileInfo_Sha1 | FileInfo_SignatureCertificateThumbprint | FileInfo_SignatureCertificateTrusted | FileInfo_SignatureStatus | FileInfo_SignatureSubject |
+|------|------|-------|------|----------------------|--------------------|-----------------------|---------------------------|--------------------------|----------------------|---------------------------|-----------------------|--------------------------|---------------|------------------------------------------|--------------------------------------|--------------------------|---------------------------|
 
 
 #### - T1197\Invoke-BitsJobs
@@ -207,13 +208,12 @@ Output fields:
 
 ## TODO
 
-- LogonScript => powershell registry key parsing is not clear 
-- Check if using HKLM:\SYSTEM\CurrentControlSet\Services instead of Get-Service resolve hidden services ?
+
+- Check and document Services & ScheduledTasks => hidden ones ? 
+- Check and Document BitsJobs, Wmi
 - SysInternals result comparison 
-- Can't we exploit AppInit.dll datas ? PE Infos ?
-- Can't we exploit WMI datas ? PE infos ?
 - Registry Keys. On Mitre there are many others keys we can parse.
-- Registry Keys: Errors key not exists on execution
+- Errors key not exists on execution
 - T1204\Invoke-Prefetch
 - T1204\Invoke-RunningProcess
 - T1546\Invoke-ComHijacking
