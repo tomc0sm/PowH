@@ -159,8 +159,9 @@ Output fields:
 
 ## TODO
 
-- Service PE file Infos is incomplete. Add missing columns.
+- LogonScript => powershell registry key parsing is not clear 
 - Check if using HKLM:\SYSTEM\CurrentControlSet\Services instead of Get-Service resolve hidden services ?
+- SysInternals result comparison 
 - Can't we exploit AppInit.dll datas ? PE Infos ?
 - Can't we exploit WMI datas ? PE infos ?
 - Registry Keys. On Mitre there are many others keys we can parse.
