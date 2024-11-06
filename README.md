@@ -35,7 +35,7 @@ Output fields
 | Path | Name | Value | Type | FileInfo_CompanyName | FileInfo_Copyright | FileInfo_DateCreation | FileInfo_DateModification | FileInfo_FileDescription | FileInfo_FileVersion | FileInfo_OriginalFileName | FileInfo_ProductName | FileInfo_ProductVersion | FileInfo_Sha1 | FileInfo_SignatureCertificateThumbprint | FileInfo_SignatureCertificateTrusted | FileInfo_SignatureStatus | FileInfo_SignatureSubject |
 |------|------|-------|------|----------------------|--------------------|-----------------------|---------------------------|--------------------------|----------------------|---------------------------|-----------------------|--------------------------|---------------|------------------------------------------|--------------------------------------|--------------------------|---------------------------|
 
-
+<br>
 
 #### - T1197\Invoke-BitsJobs
 
