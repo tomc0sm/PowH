@@ -14,7 +14,7 @@ function Invoke-Service{
     .EXAMPLE 
 
     Invoke-Service -Show
-    Invoke-Service -OutFile .\T5103-ScheduledTask.csv -Show
+    Invoke-Service -OutFile .\T5143-Service.csv -Show
 
     #>
 
@@ -28,7 +28,7 @@ function Invoke-Service{
 
     Import-Module -Name ($PSScriptRoot + "\..\..\Utils\Invoke-Utils.psd1") -Force
 
-    function Get-DecodedServiceType {
+    function Local:Get-DecodedServiceType {
 
         param (
             [int]$Type
@@ -52,31 +52,29 @@ function Invoke-Service{
                 $flagList += $flags[$flag]
             }
         }
-    
         return $flagList -join ", "
     }
 
     # Main 
     $ResultList = New-Object System.Collections.Generic.List[System.Object]
-
     $serviceRegistryPath = "HKLM:\SYSTEM\CurrentControlSet\Services"
+    $ObjFields = @("ImagePath","Type","DecodedType","Start","ErrorControl","DisplayName","Owners","Group","PSPath","PSParentPath","PSChildName","PSProvider")
 
+    
     Get-ChildItem -Path $serviceRegistryPath | ForEach-Object {
         $Service = Get-ItemProperty -Path $_.PSPath
         #if($Service.type -ge 16) {  #exclude drivers
             $Service | Add-Member -MemberType NoteProperty -Name "DecodedType" -Value  (Get-DecodedServiceType  $Service.Type)
-            if($Service.ImagePath -ne "" -and $null -ne $Service.ImagePath){
-                $FilePath = Get-WinFilePath ($Service.ImagePath -replace '"','')
-                $PEFileInfo = Get-PeFileInfo $FilePath
-                $PEFileInfo |  Get-Member -MemberType Properties | Select-Object -ExpandProperty Name | ForEach-Object {
-                    $Service | Add-Member -MemberType NoteProperty -Name "PEFileInfos_$_" -Value  $PEFileInfo.$_
-                }
-            }
+            $Service = Add-FileInfo -Obj $Service -FilePath $Service.ImagePath
             $ResultList.Add($Service)
         #}
     }
 
+   
     # Output 
+
+    $sortedProperties = Get-SortedProperties($ObjFields)
+   
     if($PSBoundParameters.ContainsKey('OutFile') -eq $true){
         $ResultList | Select-Object $sortedProperties | Export-Csv -Path $OutFile -NoTypeInformation -Encoding UTF8
     }
@@ -87,3 +85,4 @@ function Invoke-Service{
    
 }
 
+#Invoke-Service -OutFile .\T5143-Service.csv -Show

@@ -45,7 +45,7 @@ function Invoke-BitsJobs {
 
     # Main
     $ResultList = New-Object System.Collections.Generic.List[System.Object]
-
+    $ObjFields = @("ACLFlags","BytesTotal","BytesTransferred","CertificateHash","CertificateStoreLocation","CertificateStoreName","CertificateSubjectName","CreationTime","CustomHeaders","Description","DisplayName","Dynamic","ErrorCondition","ErrorContext","ErrorContextDescription","ErrorDescription","FileList","FilesTotal","FilesTransferred","HttpMethod","InternalErrorCode","JobId","JobState","MaxDownloadTime","ModificationTime","NotifyCmdLine","NotifyFlags","OwnerAccount","Priority","ProxyBypassList","ProxyList","ProxyUsage","RetryInterval","RetryTimeout","SecurityFlags","TransferCompletionTime","TransferPolicy","TransferType","TransientErrorCount")
 
     Get-BitsTransfer -AllUsers | ForEach-Object {
       
@@ -54,12 +54,13 @@ function Invoke-BitsJobs {
         foreach($prop in $properties){
             $BitObj | Add-Member -MemberType NoteProperty -Name $prop.Name -Value  ($_.($prop.Name) -join ",")
         }
-
         $ResultList.Add($BitObj)
-       
     }
 
     # Outputs
+
+    $sortedProperties = $ObjFields
+
     if($PSBoundParameters.ContainsKey('OutFile') -eq $true){
         $ResultList | Select-Object $sortedProperties | Export-Csv -Path $OutFile -NoTypeInformation -Encoding UTF8
     }
@@ -72,3 +73,4 @@ function Invoke-BitsJobs {
 
 }
 
+#Invoke-BitsJobs -OutFile .\T1197-BitsJobs.csv -Show

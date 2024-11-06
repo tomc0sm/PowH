@@ -11,8 +11,8 @@ function Invoke-AppInitDLL {
 
     .EXAMPLE 
 
-    Invoke-WinLogon  -Show
-    Invoke-WinLogon  -OutFile .\T5147-WinLogon.csv -Show
+    Invoke-AppInitDLL  -Show
+    Invoke-AppInitDLL  -OutFile .\T5146-AppInitDLL.csv -Show
 
     #>
 
@@ -32,6 +32,7 @@ function Invoke-AppInitDLL {
     )
    
     $ResultList = New-Object System.Collections.Generic.List[System.Object]
+    $ObjFields = @("Path","Name","Value","Type")
 
     $HKLM = [Microsoft.Win32.RegistryKey]::OpenRemoteBaseKey('LocalMachine', $env:COMPUTERNAME)
 
@@ -39,32 +40,26 @@ function Invoke-AppInitDLL {
 
         $HKLMKRegistryKey =  $HKLM.OpenSubKey($KeyPath, $false)
         if( $null -ne $HKLMKRegistryKey) {
-            $AppInitDLL = [PSCustomObject]@{
-                Path = "HKLM:\$KeyPath\AppInit_DLLs"
-                Name = $name
-                Value = $HKLMKRegistryKey.GetValue("AppInit_DLLs")
-                Type =  $HKLMKRegistryKey.GetValueKind("AppInit_DLLs")
-            }
-            
-            if($AppInitDLL.Value -ne "" -and $null -ne $AppInitDLL.Value){
-                $PEFileInfoIndex = 0
-                ($AppInitDLL.Value -split ",") | ForEach-Object { # parse comma separated values
-                    if($_ -ne ""){
-                        $FilePath = Get-WinFilePath ($_ -replace '"','')
-                        $PEFileInfo = Get-PeFileInfo $FilePath
-                        $PEFileInfo |  Get-Member -MemberType Properties | Select-Object -ExpandProperty Name | ForEach-Object {
-                           $AppInitDLL | Add-Member -MemberType NoteProperty -Name "$($PEFileInfoIndex)_PEFileInfos_$_" -Value  $PEFileInfo.$_
-                            
-                        }
-                        $PEFileInfoIndex += 1
-                    }
+            $AppInitDLL = [PSCustomObject]@{} 
+            $AppInitDLL | Add-Member -Type NoteProperty -Name "Path" -Value "HKLM:\$KeyPath\AppInit_DLLs"
+            $AppInitDLL | Add-Member -Type NoteProperty -Name "Name" $name
+            $AppInitDLL | Add-Member -Type NoteProperty -Name "Value" $HKLMKRegistryKey.GetValue("AppInit_DLLs")
+            $AppInitDLL | Add-Member -Type NoteProperty -Name "Type" $HKLMKRegistryKey.GetValueKind("AppInit_DLLs")
+            ($AppInitDLL.value -split ",") | ForEach-Object { # parse comma separated values
+                if($_ -ne ""){
+                    $AppInitDLLCpy = $AppInitDLL.PSObject.Copy()
+                    $AppInitDLLCpy =  Add-FileInfo -Obj $AppInitDLL -FilePath $_
+                    $ResultList.Add($AppInitDLLCpy)
                 }
+                
             }
-            $ResultList.Add($AppInitDLL)
         }
     }
 
     # Output 
+
+    $sortedProperties = Get-SortedProperties($ObjFields)
+
     if($PSBoundParameters.ContainsKey('OutFile') -eq $true){
         $ResultList | Select-Object $sortedProperties | Export-Csv -Path $OutFile -NoTypeInformation -Encoding UTF8
     }
@@ -74,3 +69,5 @@ function Invoke-AppInitDLL {
     }
     
 }
+
+#Invoke-AppInitDLL  -OutFile .\T5146-AppInitDLL.csv -Show

@@ -26,53 +26,67 @@ function Invoke-WinLogon {
 
     Import-Module -Name ($PSScriptRoot + "\..\..\Utils\Invoke-Utils.psd1") -Force
 
-    $WinLogonRegistryKeys = @(
-        "SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon"
-    )
-
+    $WinLogonRegistryKeyPath = "SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\"
+    $WinLogonRegistryKeyValues = @("UserInit","Shell","Notify")
     $ResultList = New-Object System.Collections.Generic.List[System.Object]
+    $ObjFields = @("Path","Name","Value","Type")
 
     $HKLM = [Microsoft.Win32.RegistryKey]::OpenRemoteBaseKey('LocalMachine', $env:COMPUTERNAME)
+    $HKU = [Microsoft.Win32.RegistryKey]::OpenRemoteBaseKey('Users', $env:COMPUTERNAME)
+    $HKUPaths = New-Object System.Collections.Generic.List[System.Object]
+    $HKU.GetSubKeyNames() | Where-Object {$_ -match '^S-1-5-21' -and $_ -notmatch '_Classes$'} | ForEach-Object {
+        $HKUPaths.add($_ + "\")
+    }
 
-    foreach($KeyPath in $WinLogonRegistryKeys) {
-
-        $HKLMKRegistryKey =  $HKLM.OpenSubKey($KeyPath, $false)
-        if( $null -ne $HKLMKRegistryKey) {
-
-            $WinLogon = [PSCustomObject]@{
-                Path = "HKLM:\$KeyPath\Userinit"
-                Name = $name
-                Value = $HKLMKRegistryKey.GetValue("Userinit")
-                Type =  $HKLMKRegistryKey.GetValueKind("Userinit")
-            }
-            $ResultList.Add($WinLogon)
-
-            $WinLogon = [PSCustomObject]@{
-                Path = "HKLM:\$KeyPath\Shell"
-                Name = $name
-                Value = $HKLMKRegistryKey.GetValue("Shell")
-                Type =  $HKLMKRegistryKey.GetValueKind("Shell")
-            }      
-            $ResultList.Add($WinLogon)
-           
-            for($i = 0 ; $i -lt $ResultList.Count ; $i++){
-                $PEFileInfoIndex = 0
-                ($ResultList[$i].Value -split ",") | ForEach-Object { # parse comma separated values
-                    if($_ -ne ""){
-                        $FilePath = Get-WinFilePath ($_ -replace '"','')
-                        $PEFileInfo = Get-PeFileInfo $FilePath
-                        $PEFileInfo |  Get-Member -MemberType Properties | Select-Object -ExpandProperty Name | ForEach-Object {
-                            $ResultList[$i] | Add-Member -MemberType NoteProperty -Name "$($PEFileInfoIndex)_PEFileInfos_$_" -Value  $PEFileInfo.$_
-                            
-                        }
-                        $PEFileInfoIndex += 1
-                    }
+    # HKLM
+    $HKLMWinLogonKey =  $HKLM.OpenSubKey($WinLogonRegistryKeyPath, $false)
+    if( $null -ne $HKLMWinLogonKey) {
+        foreach($keyValue in $WinLogonRegistryKeyValues){
+            $WinLogon = [PSCustomObject]@{} 
+            $WinLogon | Add-Member -Type NoteProperty -Name "Path" -Value "HKLM:\$WinLogonRegistryKeyPath\$keyValue"
+            $WinLogon | Add-Member -Type NoteProperty -Name "Name" -Value $Name
+            $WinLogon | Add-Member -Type NoteProperty -Name "Value" -Value $HKLMWinLogonKey.GetValue($keyValue)
+            $WinLogon | Add-Member -Type NoteProperty -Name "Type" -Value $HKLMWinLogonKey.GetValueKind($keyValue)
+            ($WinLogon.value -split ",") | ForEach-Object { # parse comma separated values
+                if($_ -ne ""){
+                    $WinLogonCpy = $WinLogon.PSObject.Copy()
+                    $WinLogonCpy =  Add-FileInfo -Obj $WinLogonCpy -FilePath $_
+                    $WinLogonCpy.Value = $_
+                    $ResultList.Add($WinLogonCpy)
                 }
+            }   
+        }
+    }
+
+    #HKU
+    foreach($userPath in $HKUPaths){
+        $fullPath = $userPath + "\" + $WinLogonRegistryKeyPath
+        $HKUWinLogonKey = $HKU.OpenSubKey($fullPath, $false)
+        if( $null -ne $HKUWinLogonKey) {
+            foreach($keyValue in $WinLogonRegistryKeyValues){
+                $WinLogon = [PSCustomObject]@{} 
+                $WinLogon | Add-Member -Type NoteProperty -Name "Path" -Value "$fullPath""$WinLogonRegistryKeyPath\$keyValue"
+                $WinLogon | Add-Member -Type NoteProperty -Name "Name" -Value $Name
+                $WinLogon | Add-Member -Type NoteProperty -Name "Value" -Value $HKLMWinLogonKey.GetValue($keyValue)
+                $WinLogon | Add-Member -Type NoteProperty -Name "Type" -Value $HKLMWinLogonKey.GetValueKind($keyValue)
+                ($WinLogon.value -split ",") | ForEach-Object { # parse comma separated values
+                    if($_ -ne ""){
+                        $WinLogonCpy = $WinLogon.PSObject.Copy()
+                        $WinLogonCpy =  Add-FileInfo -Obj $WinLogonCpy -FilePath $_
+                        $WinLogonCpy.Value = $_
+                        $ResultList.Add($WinLogonCpy)
+                    }
+                }   
             }
         }
     }
 
+        
+
     # Output 
+
+    $sortedProperties = Get-SortedProperties($ObjFields)
+
     if($PSBoundParameters.ContainsKey('OutFile') -eq $true){
         $ResultList | Select-Object $sortedProperties | Export-Csv -Path $OutFile -NoTypeInformation -Encoding UTF8
     }
@@ -82,3 +96,5 @@ function Invoke-WinLogon {
     }
 
 }
+
+#Invoke-WinLogon  -OutFile .\T5147-WinLogon.csv -Show

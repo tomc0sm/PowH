@@ -16,3 +16,5 @@ Invoke-AppInitDLL -OutFile ".\Output\Persistence\T5146_AppInitDLL.csv" -Show
 Invoke-WMIEventSubscription -OutFile ".\Output\Persistence\T5146-WMIEventSubscription.csv" -Show
 
 Invoke-BitsJobs -OutFile ".\Output\Persistence\T1197-BitsJobs.csv" -Show
+
+Invoke-LogonScript -OutFile ".\Output\Persistence\T1037-LogonScript.csv" -Show

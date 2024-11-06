@@ -72,6 +72,7 @@ function Invoke-ScheduledTask {
 
     # Main
     $ResultList = New-Object System.Collections.Generic.List[System.Object]
+    $ObjFields = @("TaskName","TaskPath","RegistrationInfo_Version","RegistrationInfo_Description","RegistrationInfo_URI","Triggers_LogonTrigger_Enabled","Triggers_CalendarTrigger_StartBoundary","Triggers_CalendarTrigger_Enabled","Triggers_CalendarTrigger_ScheduleByDay_DaysInterval","Principals_Principal_UserId","Principals_Principal_RunLevel","Settings_MultipleInstancesPolicy","Settings_DisallowStartIfOnBatteries","Settings_StopIfGoingOnBatteries","Settings_AllowHardTerminate","Settings_StartWhenAvailable","Settings_RunOnlyIfNetworkAvailable","Settings_IdleSettings_Duration","Settings_IdleSettings_WaitTimeout","Settings_IdleSettings_StopOnIdleEnd","Settings_IdleSettings_RestartOnIdle","Settings_AllowStartOnDemand","Settings_Enabled","Settings_Hidden","Settings_RunOnlyIfIdle","Settings_DisallowStartOnRemoteAppSession","Settings_UseUnifiedSchedulingEngine","Settings_WakeToRun","Settings_ExecutionTimeLimit","Settings_Priority","Actions_Exec_Command","Actions_Exec_Arguments")
 
     (Get-ScheduledTask -TaskPath "\") | ForEach-Object {
         
@@ -82,18 +83,14 @@ function Invoke-ScheduledTask {
         }
 
         $ScheduledTask = Convert-XMLToProperties -XMLElement $TaskXml.Task -Obj $ScheduledTask
-       
         # Data enrichment
-        $FilePath = Get-WinFilePath $ScheduledTask.Actions_Exec_Command
-        $PEFileInfo = Get-PeFileInfo $FilePath
-        $PEFileInfo |  Get-Member -MemberType Properties | Select-Object -ExpandProperty Name | ForEach-Object {
-            $ScheduledTask | Add-Member -MemberType NoteProperty -Name "PEFileInfos_$_" -Value  $PEFileInfo.$_
-        }
-        
+        $ScheduledTask = Add-FileInfo -Obj $ScheduledTask -FilePath $ScheduledTask.Actions_Exec_Command
         $ResultList.Add($ScheduledTask)
     }
     
     # Outputs
+    $sortedProperties = Get-SortedProperties($ObjFields)
+
     if($PSBoundParameters.ContainsKey('OutFile') -eq $true){
         $ResultList | Select-Object $sortedProperties | Export-Csv -Path $OutFile -NoTypeInformation -Encoding UTF8
     }
@@ -105,4 +102,7 @@ function Invoke-ScheduledTask {
     return $ResultList
 
 }
+
+
+#Invoke-ScheduledTask -OutFile .\T5103-ScheduledTask.csv -Show
 

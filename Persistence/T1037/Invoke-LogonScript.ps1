@@ -2,11 +2,11 @@ function Invoke-LogonScript {
     <#
     .SYNOPSIS
 
-    MITREATT&CK : https://attack.mitre.org/techniques/T1197/
+    MITREATT&CK : https://attack.mitre.org/techniques/T1037/001/
 
     .DESCRIPTION
 
-    MITREATT&CK : https://attack.mitre.org/techniques/T1197/
+    MITREATT&CK : https://attack.mitre.org/techniques/T1037/001/
 
     .PARAMETER OutFile
 
@@ -20,7 +20,7 @@ function Invoke-LogonScript {
     .EXAMPLE 
 
     Invoke-LogonScript -Show
-    Invoke-LogonScripts -OutFile .\T1197-BitsJobs.csv -Show
+    Invoke-LogonScript -OutFile .\T1037-LogonScript.csv -Show
 
     #>
 
@@ -34,42 +34,40 @@ function Invoke-LogonScript {
 
     Import-Module -Name ($PSScriptRoot + "\..\..\Utils\Invoke-Utils.psd1") -Force
 
-    # Main
     $ResultList = New-Object System.Collections.Generic.List[System.Object]
-
-    $keyPath ="\Environment"
+    $ObjFields = @("Path","Name","Value","Type")
 
     $HKU = [Microsoft.Win32.RegistryKey]::OpenRemoteBaseKey('Users', $env:COMPUTERNAME)
-
+    $HKUPaths = New-Object System.Collections.Generic.List[System.Object]
     $HKU.GetSubKeyNames() | Where-Object {$_ -match '^S-1-5-21' -and $_ -notmatch '_Classes$'} | ForEach-Object {
-        $fullPath = $_ + $keyPath
-        $HKURegistryKey =  $HKU.OpenSubKey($fullPath, $false)
-        $LogonScript = [PSCustomObject]@{
-            Path = "HKLM:\$KeyPath\UserInitMprLogonScript"
-            Name = $_
-            Value = $HKURegistryKey.GetValue('UserInitMprLogonScript')
-            Type =  $HKURegistryKey.GetValueKind('UserInitMprLogonScript')
-        }
+        $HKUPaths.add($_ + "\")
+    }
 
-        if($LogonScript.Value -ne "" -and $null -ne $LogonScript.Value){
-            $PEFileInfoIndex = 0
-            ($LogonScript.Value -split ",") | ForEach-Object { # parse comma separated values
+    foreach($userPath in $HKUPaths){
+        $fullPath = $userPath + "\Environment"
+        $HKUEnvironmentKey = $HKU.OpenSubKey($fullPath, $false)
+        $HKUEnvironmentKey.GetValueNames() | ForEach-Object {
+            $Environment = [PSCustomObject]@{} 
+            $Environment | Add-Member -Type NoteProperty -Name "Path" -Value "HKU:\$fullPath"
+            $Environment | Add-Member -Type NoteProperty -Name "Name" -Value $_
+            $Environment | Add-Member -Type NoteProperty -Name "Value" -Value $HKUEnvironmentKey.GetValue($_)
+            $Environment | Add-Member -Type NoteProperty -Name "Type" -Value $HKUEnvironmentKey.GetValueKind($_)
+            ($Environment.Value -split ";") | ForEach-Object { # parse comma separated values
                 if($_ -ne ""){
-                    $FilePath = Get-WinFilePath ($_ -replace '"','')  
-                    $PEFileInfo = Get-PeFileInfo $FilePath
-                    $PEFileInfo |  Get-Member -MemberType Properties | Select-Object -ExpandProperty Name | ForEach-Object {
-                        $LogonScript | Add-Member -MemberType NoteProperty -Name "$($PEFileInfoIndex)_PEFileInfos_$_" -Value  $PEFileInfo.$_
-                        
-                    }
-                    $PEFileInfoIndex += 1
+                    Write-Host $_
+                    $EnvironmentCpy = $Environment.PSObject.Copy()
+                    $EnvironmentCpy =  Add-FileInfo -Obj $EnvironmentCpy -FilePath $_
+                    $EnvironmentCpy.Value = $_
+                    $ResultList.Add($EnvironmentCpy)
                 }
             }
         }
-
-        $ResultList.Add($LogonScript)
     }
 
     # Output 
+
+    $sortedProperties = Get-SortedProperties($ObjFields)
+
     if($PSBoundParameters.ContainsKey('OutFile') -eq $true){
         $ResultList | Select-Object $sortedProperties | Export-Csv -Path $OutFile -NoTypeInformation -Encoding UTF8
     }
@@ -84,4 +82,4 @@ function Invoke-LogonScript {
 
 }
 
-Invoke-LogonScript -Show
+#Invoke-LogonScript -OutFile .\T1037-LogonScript.csv -Show

@@ -26,9 +26,7 @@ function Invoke-RegistryRunKey{
 
     Import-Module -Name ($PSScriptRoot + "\..\..\Utils\Invoke-Utils.psd1") -Force
 
-    $HKU = [Microsoft.Win32.RegistryKey]::OpenRemoteBaseKey('Users', $env:COMPUTERNAME)
-    $HKLM = [Microsoft.Win32.RegistryKey]::OpenRemoteBaseKey('LocalMachine', $env:COMPUTERNAME)
-
+    
     $AutoRunRegistryKeys = @(
         "Software\Microsoft\Windows\CurrentVersion\Run", 
         "Software\Microsoft\Windows\CurrentVersion\RunOnce", 
@@ -36,8 +34,11 @@ function Invoke-RegistryRunKey{
         "Software\Wow6432Node\Microsoft\Windows\CurrentVersion\Run",
         "Sotware\Wow6432Node\Microsoft\Windows\CurrentVersion\RunOnce"
     )
-
     $ResultList = New-Object System.Collections.Generic.List[System.Object]
+    $ObjFields = @("Path","Name","Value","Type")
+
+    $HKU = [Microsoft.Win32.RegistryKey]::OpenRemoteBaseKey('Users', $env:COMPUTERNAME)
+    $HKLM = [Microsoft.Win32.RegistryKey]::OpenRemoteBaseKey('LocalMachine', $env:COMPUTERNAME)
         
     $HKUPaths = New-Object System.Collections.Generic.List[System.Object]
     $HKU.GetSubKeyNames() | Where-Object {$_ -match '^S-1-5-21' -and $_ -notmatch '_Classes$'} | ForEach-Object {
@@ -51,19 +52,15 @@ function Invoke-RegistryRunKey{
         if($null -eq $HKLMKRegistryKey){
             continue
         }
+        
         $HKLMKRegistryKey.GetValueNames() | ForEach-Object {
-            $RegistryRun = [PSCustomObject]@{
-                Path = "HKLM:\$KeyPath"
-                Name = $_
-                Value = $HKLMKRegistryKey.GetValue($_)
-                Type =  $HKLMKRegistryKey.GetValueKind($_)
-            }
-       
-            $FilePath = Get-WinFilePath ($RegistryRun.Value -replace '"','')      
-            $PEFileInfo = Get-PeFileInfo $FilePath
-            $PEFileInfo |  Get-Member -MemberType Properties | Select-Object -ExpandProperty Name | ForEach-Object {
-                $RegistryRun | Add-Member -MemberType NoteProperty -Name "PEFileInfos_$_" -Value  $PEFileInfo.$_
-            }
+            $RegistryRun = [PSCustomObject]@{} 
+            $RegistryRun | Add-Member -Type NoteProperty -Name "Path" -Value "HKLM:\$KeyPath"
+            $RegistryRun | Add-Member -Type NoteProperty -Name "Name" -Value $_
+            $RegistryRun | Add-Member -Type NoteProperty -Name "Value" -Value $HKLMKRegistryKey.GetValue($_)
+            $RegistryRun | Add-Member -Type NoteProperty -Name "Value" -Value $HKLMKRegistryKey.GetValueKind($_)
+            $FilePath = $RegistryRun.Value -replace '"',''
+            $RegistryRun = Add-FileInfo -Obj $RegistryRun -FilePath $FilePath
             $ResultList.Add($RegistryRun)
         }
 
@@ -75,22 +72,19 @@ function Invoke-RegistryRunKey{
                 continue
             }
             $HKURegistryKey.GetValueNames()| ForEach-Object {
-                $RegistryRun = [PSCustomObject]@{
-                    Path = "HKU:\$fullPath"
-                    Name = $_
-                    Value = $HKURegistryKey.GetValue($_)
-                    Type =  $HKURegistryKey.GetValueKind($_)
-                }
-           
-                $FilePath = Get-WinFilePath ($RegistryRun.Value -replace '"','')      
-                $PEFileInfo = Get-PeFileInfo $FilePath
-                $PEFileInfo |  Get-Member -MemberType Properties | Select-Object -ExpandProperty Name | ForEach-Object {
-                    $RegistryRun | Add-Member -MemberType NoteProperty -Name "PEFileInfos_$_" -Value  $PEFileInfo.$_
-                }
+                $RegistryRun = [PSCustomObject]@{} 
+                $RegistryRun | Add-Member -Type NoteProperty -Name "Path" -Value "HKU:\$fullPath"
+                $RegistryRun | Add-Member -Type NoteProperty -Name "Name" -Value $_
+                $RegistryRun | Add-Member -Type NoteProperty -Name "Value" -Value $HKLMKRegistryKey.GetValue($_)
+                $RegistryRun | Add-Member -Type NoteProperty -Name "Value" -Value $HKLMKRegistryKey.GetValueKind($_)
+                $FilePath = $RegistryRun.Value -replace '"',''
+                $RegistryRun = Add-FileInfo -Obj $RegistryRun -FilePath $FilePath
                 $ResultList.Add($RegistryRun)
             }
         }
     }
+
+    $sortedProperties = Get-SortedProperties($ObjFields)
 
     # Outputs
     if($PSBoundParameters.ContainsKey('OutFile') -eq $true){
@@ -104,3 +98,4 @@ function Invoke-RegistryRunKey{
 }
 
 
+#Invoke-RegistryRunKey -OutFile .\T5147-RegistryRunKey.csv -Show

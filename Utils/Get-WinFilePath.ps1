@@ -4,6 +4,10 @@ function Get-WinFilePath {
         [string] $FilePath
     )
 
+     if($null -eq $FilePath -or $FilePath -eq "" ){
+            return $null
+    }
+
 
     if($FilePath -match "%localappdata%"){
         $localAppDataPath = (Get-Item -Path $env:LOCALAPPDATA).FullName
@@ -26,7 +30,7 @@ function Get-WinFilePath {
     }
 
     $pattern = '(?<!\S)(([a-zA-Z]:\\|\\\\)([^<>:"/\\|?*\x00-\x1F]+\\)*([^<>:"/\\|?*\x00-\x1F\s]+)\.([^<>:"/\\|?*\x00-\x1F\s]+)(?<!\s))'
-    
+    $pattern = '(?:^|["\s])((?:[a-zA-Z]:)\\[^:\*\?"<>\|]+?\.[a-zA-Z0-9]+)(?=\s|$|")'
     return ($FilePath | Select-String -Pattern $pattern -AllMatches | ForEach-Object { $_.Matches.Value })
 
 }

@@ -27,6 +27,7 @@ function Invoke-StartupFolder {
     Import-Module -Name ($PSScriptRoot + "\..\..\Utils\Invoke-Utils.psd1") -Force
 
     $ResultList = New-Object System.Collections.Generic.List[System.Object]
+    $ObjFields = @("Name","Path","TargetPath")
 
     $StartUpMenuPaths = New-Object System.Collections.Generic.List[System.Object]
     $StartUpMenuPaths.Add("C:\ProgramData\Microsoft\Windows\Start Menu\Programs\StartUp")
@@ -56,14 +57,16 @@ function Invoke-StartupFolder {
             }
 
             $FilePath = Get-WinFilePath ($StartUpMenu.TargetPath -replace '"','')
-            $PEFileInfo = Get-PeFileInfo $FilePath
-            $PEFileInfo |  Get-Member -MemberType Properties | Select-Object -ExpandProperty Name | ForEach-Object {
-                $StartUpMenu | Add-Member -MemberType NoteProperty -Name "PEFileInfos_$_" -Value  $PEFileInfo.$_
-            }
-
+            $StartUpMenu = Add-FileInfo -Obj $StartUpMenu -FilePath $FilePath
             $ResultList.Add($StartUpMenu)
+
+           
         }
     }
+
+    # Output 
+
+    $sortedProperties = Get-SortedProperties($ObjFields)
         
     if($PSBoundParameters.ContainsKey('OutFile') -eq $true){
         $ResultList | Select-Object $sortedProperties | Export-Csv -Path $OutFile -NoTypeInformation -Encoding UTF8
@@ -71,7 +74,7 @@ function Invoke-StartupFolder {
 
     if($PSBoundParameters.ContainsKey('Show') -eq $true){
         Write-Output  $ResultList | Select-Object $sortedProperties | Format-List
-    }
-    
-   
+    }  
 }
+
+#Invoke-StartupFolder  -OutFile .\T5147-StartUpFolder.csv -Show
