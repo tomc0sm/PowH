@@ -24,7 +24,7 @@ function Invoke-RegistryRunKey{
         [switch]$Show
     )
 
-    Import-Module -Name ($PSScriptRoot + "\..\..\Utils\Invoke-Utils.psd1") -Force
+    Import-Module -Name ($PSScriptRoot + "\..\..\Core\Invoke-Core.psd1") -Force
 
     
     $AutoRunRegistryKeys = @(

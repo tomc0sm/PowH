@@ -4,6 +4,6 @@
     Author            = 'y4k4r1'
     CompanyName       = ''
     Copyright         = 'Copyright (c) y4k4r1 2024'
-    RootModule        = 'Invoke-Utils.psm1'
+    RootModule        = 'Invoke-Core.psm1'
    
 }

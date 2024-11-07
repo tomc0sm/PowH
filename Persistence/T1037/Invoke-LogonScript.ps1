@@ -32,7 +32,7 @@ function Invoke-LogonScript {
         [switch]$Show
     )
 
-    Import-Module -Name ($PSScriptRoot + "\..\..\Utils\Invoke-Utils.psd1") -Force
+    Import-Module -Name ($PSScriptRoot + "\..\..\Core\Invoke-Core.psd1") -Force
 
     $ResultList = New-Object System.Collections.Generic.List[System.Object]
     $ObjFields = @("Path","Name","Value","Type")

@@ -41,7 +41,7 @@ function Invoke-BitsJobs {
         [switch]$Show
     )
 
-    Import-Module -Name ($PSScriptRoot + "\..\..\Utils\Invoke-Utils.psd1") -Force
+    Import-Module -Name ($PSScriptRoot + "\..\..\Core\Invoke-Core.psd1") -Force
 
     # Main
     $ResultList = New-Object System.Collections.Generic.List[System.Object]
