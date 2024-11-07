@@ -72,16 +72,13 @@ function Invoke-ScheduledTask {
 
     # Main
     $ResultList = New-Object System.Collections.Generic.List[System.Object]
-    $ObjFields = @("TaskName","TaskPath","RegistrationInfo_Version","RegistrationInfo_Description","RegistrationInfo_URI","Triggers_LogonTrigger_Enabled","Triggers_CalendarTrigger_StartBoundary","Triggers_CalendarTrigger_Enabled","Triggers_CalendarTrigger_ScheduleByDay_DaysInterval","Principals_Principal_UserId","Principals_Principal_RunLevel","Settings_MultipleInstancesPolicy","Settings_DisallowStartIfOnBatteries","Settings_StopIfGoingOnBatteries","Settings_AllowHardTerminate","Settings_StartWhenAvailable","Settings_RunOnlyIfNetworkAvailable","Settings_IdleSettings_Duration","Settings_IdleSettings_WaitTimeout","Settings_IdleSettings_StopOnIdleEnd","Settings_IdleSettings_RestartOnIdle","Settings_AllowStartOnDemand","Settings_Enabled","Settings_Hidden","Settings_RunOnlyIfIdle","Settings_DisallowStartOnRemoteAppSession","Settings_UseUnifiedSchedulingEngine","Settings_WakeToRun","Settings_ExecutionTimeLimit","Settings_Priority","Actions_Exec_Command","Actions_Exec_Arguments")
+    $ObjFields = @("RegistrationInfo_Version","RegistrationInfo_Description","RegistrationInfo_URI","Triggers_LogonTrigger_Enabled","Triggers_CalendarTrigger_StartBoundary","Triggers_CalendarTrigger_Enabled","Triggers_CalendarTrigger_ScheduleByDay_DaysInterval","Principals_Principal_UserId","Principals_Principal_RunLevel","Settings_MultipleInstancesPolicy","Settings_DisallowStartIfOnBatteries","Settings_StopIfGoingOnBatteries","Settings_AllowHardTerminate","Settings_StartWhenAvailable","Settings_RunOnlyIfNetworkAvailable","Settings_IdleSettings_Duration","Settings_IdleSettings_WaitTimeout","Settings_IdleSettings_StopOnIdleEnd","Settings_IdleSettings_RestartOnIdle","Settings_AllowStartOnDemand","Settings_Enabled","Settings_Hidden","Settings_RunOnlyIfIdle","Settings_DisallowStartOnRemoteAppSession","Settings_UseUnifiedSchedulingEngine","Settings_WakeToRun","Settings_ExecutionTimeLimit","Settings_Priority","Actions_Exec_Command","Actions_Exec_Arguments")
+    $tasksFolder = "C:\Windows\System32\Tasks"
 
-    (Get-ScheduledTask -TaskPath "\") | ForEach-Object {
-        
-        $TaskXml = [XML]((Get-ScheduledTask -TaskName $_.TaskName) |Export-ScheduledTask)
-        $ScheduledTask = [PSCustomObject]@{
-            TaskName = $_.TaskName
-            TaskPath = $_.TaskPath
-        }
-
+    Get-ChildItem -Path $tasksFolder -Recurse | Where-Object { $_.FullName -notmatch "C:\\Windows\\System32\\Tasks\\Microsoft\\"}| ForEach-Object {
+    
+        [XML]$TaskXml = Get-Content -Path $_.FullName
+        $ScheduledTask = [PSCustomObject]@{}
         $ScheduledTask = Convert-XMLToProperties -XMLElement $TaskXml.Task -Obj $ScheduledTask
         # Data enrichment
         $ScheduledTask = Add-FileInfo -Obj $ScheduledTask -FilePath $ScheduledTask.Actions_Exec_Command
@@ -104,5 +101,5 @@ function Invoke-ScheduledTask {
 }
 
 
-#Invoke-ScheduledTask -OutFile .\T5103-ScheduledTask.csv -Show
+Invoke-ScheduledTask -OutFile .\T5103-ScheduledTask.csv -Show
 

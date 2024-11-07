@@ -57,6 +57,22 @@ MITRE | ATT&CK&CK : https://attack.mitre.org/techniques/T1053/005/
 
 Adversaries may abuse the Windows Task Scheduler to perform task scheduling for initial or recurring execution of malicious code. An adversary may use Windows Task Scheduler to execute programs at system startup or on a scheduled basis for persistence.Adversaries may also create "hidden" scheduled tasks (i.e. Hide Artifacts) that may not be visible to defender tools and manual queries used to enumerate tasks.
 
+
+This is done by deleting the associated Security Descriptor (SD) registry value 
+
+Example : creating hidden task 
+
+```
+$action = New-ScheduledTaskAction -Execute "notepad.exe"
+$trigger = New-ScheduledTaskTrigger -AtLogOn
+Register-ScheduledTask -Action $action -Trigger $trigger -TaskName "HiddenTestTask" -Description "This is a test hidden task"
+
+C:\Tools\SysinternalsSuite\PsExec.exe -i -s powershell.exe
+
+PS C:\Windows\system32>  Remove-ItemProperty  -Path "HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Schedule\TaskCache\Tree\HiddenTestTask" -Name "SD"
+
+```
+
 Output fields : 
 
 
@@ -210,6 +226,7 @@ Output fields:
 
 
 - Check and document Services & ScheduledTasks => hidden ones ? 
+- Task data enrichment => get SD value in Registry HKLM:[...] TaskCache => hidden tasks
 - Check and Document BitsJobs, Wmi
 - SysInternals result comparison 
 - Registry Keys. On Mitre there are many others keys we can parse.

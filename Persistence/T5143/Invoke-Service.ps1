@@ -85,4 +85,4 @@ function Invoke-Service{
    
 }
 
-#Invoke-Service -OutFile .\T5143-Service.csv -Show
+Invoke-Service -OutFile .\T5143-Service.csv -Show
