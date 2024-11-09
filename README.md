@@ -85,8 +85,10 @@ Output fields :
 
 MITRE | ATT&CK : https://attack.mitre.org/techniques/T1543/003/
 
-Adversaries may create or modify Windows services to repeatedly execute malicious payloads as part of persistence.Adversaries may install a new service or modify an existing service to execute at startup in order to persist on a system.Adversaries may also use services to install and execute malicious drivers. Services may be created with administrator privileges but are executed under SYSTEM privileges. Adversaries may also create ‘hidden’ services (i.e., Hide Artifacts), for example by using the sc sdset command to set service permissions via the Service Descriptor Definition Language (SDDL). **This may hide a Windows service from the view of standard service enumeration methods such as Get-Service, sc query, and services.exe**
+Adversaries may also create ‘hidden’ services (i.e., Hide Artifacts), for example by using the sc sdset command to set service permissions via the Service Descriptor Definition Language (SDDL). **This may hide a Windows service from the view of standard service enumeration methods such as Get-Service, sc query, and services.exe**
 
+
+This is done by deleting the associated Security Descriptor (SD) registry value 
 
 Output fields : 
 
@@ -102,7 +104,6 @@ Output fields :
 
 MITRE | ATT&CK : https://attack.mitre.org/techniques/T1546/010/
 
- Adversaries may establish persistence and/or elevate privileges by executing malicious content triggered by AppInit DLLs loaded into processes. Dynamic-link libraries (DLLs) that are specified in the AppInit_DLLs are loaded by user32.dll into every process that loads user32.dll. 
 
  This is done by adding the Registry keys : 
 
@@ -122,7 +123,14 @@ Output fields:
 
 MITRE | ATT&CK :https://attack.mitre.org/techniques/T1546/003/
 
-Adversaries may establish persistence and elevate privileges by executing malicious content triggered by a Windows Management Instrumentation (WMI) event subscription. WMI can be used to install event filters, providers, consumers, and bindings that execute code when a defined event occurs. Adversaries may use the capabilities of WMI to subscribe to an event and execute arbitrary code when that event occurs, providing persistence on a system. WMI subscription execution is proxied by the WMI Provider Host process (WmiPrvSe.exe) and thus may result in elevated SYSTEM privileges.
+Adversaries may establish persistence and elevate privileges by executing malicious content triggered by a Windows Management Instrumentation (WMI) event subscription. WMI can be used to install event filters, providers, consumers, and bindings that execute code when a defined event occurs. 
+
+This is done by creating object in theses namespaces : 
+
+- root\Subscription -Class __EventFilter
+- root\Subscription -Class __EventConsumer 
+- root\Subscription -Class __FilterToConsumerBinding
+
 
 OutPut Fields : 
 
@@ -225,15 +233,15 @@ Output fields:
 ## TODO
 
 
-- Check and document Services & ScheduledTasks => hidden ones ? 
-- Task data enrichment => get SD value in Registry HKLM:[...] TaskCache => hidden tasks
 - Check and Document BitsJobs, Wmi
-- SysInternals result comparison 
-- Registry Keys. On Mitre there are many others keys we can parse.
-- Errors key not exists on execution
-- T1204\Invoke-Prefetch
+- Add FileInfo to WMI consumerCommand
 - T1204\Invoke-RunningProcess
-- T1546\Invoke-ComHijacking
+- Registry Keys. On Mitre there are many others keys we can parse.
+- T1204\Invoke-Prefetch
 - Browser Extensions 
+- Task data enrichment => hidden services and scheduled tasks => check sd Security Descriptor value in Registry
+- Errors key not exists on execution
+- T1546\Invoke-ComHijacking
+- SysInternals result comparison 
 
 
