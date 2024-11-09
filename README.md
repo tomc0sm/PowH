@@ -1,7 +1,5 @@
-# PowerHunt
 
-
-##  Usage 
+#  Usage 
 
 
 ```
@@ -17,11 +15,11 @@ mkdir .\Output\Execution
 ```
 
 
-## Features 
+# Features 
 
-### Persistence
+## Persistence
 
-#### - T1037\Invoke-LogonScripts
+### - T1037\Invoke-LogonScripts
 
 MITRE | ATT&CK : https://attack.mitre.org/techniques/T1037/001/
 
@@ -36,7 +34,7 @@ Output fields
 |------|------|-------|------|----------------------|--------------------|-----------------------|---------------------------|--------------------------|----------------------|---------------------------|-----------------------|--------------------------|---------------|------------------------------------------|--------------------------------------|--------------------------|---------------------------|
 
 
-#### - T1197\Invoke-BitsJobs
+### - T1197\Invoke-BitsJobs
 
 MITRE | ATT&CK : https://attack.mitre.org/techniques/T1197/
 
@@ -51,7 +49,7 @@ Output fields
  
 <br>
 
-#### - T5103\Invoke-ScheduledTask
+### - T5103\Invoke-ScheduledTask
 
 MITRE | ATT&CK&CK : https://attack.mitre.org/techniques/T1053/005/
 
@@ -81,7 +79,7 @@ Output fields :
 
 <br>
 
-#### - T5143\Invoke-Service
+### - T5143\Invoke-Service
 
 MITRE | ATT&CK : https://attack.mitre.org/techniques/T1543/003/
 
@@ -98,7 +96,7 @@ Output fields :
 
 <br>
 
-#### - T5146\Invoke-AppInitDLL
+### - T5146\Invoke-AppInitDLL
 
 MITRE | ATT&CK : https://attack.mitre.org/techniques/T1546/010/
 
@@ -117,7 +115,7 @@ Output fields:
 
  <br>
 
-#### - T5146\Invoke-WMIEventSubscription
+### - T5146\Invoke-WMIEventSubscription
 
 
 MITRE | ATT&CK :https://attack.mitre.org/techniques/T1546/003/
@@ -132,7 +130,7 @@ OutPut Fields :
 
 <br> 
 
-#### - T5147\Invoke-RegistryRunKey
+### - T5147\Invoke-RegistryRunKey
 
 MITRE | ATT&CK: https://attack.mitre.org/techniques/T1543/003/
 
@@ -156,7 +154,7 @@ Output fields
 
 <br>
 
-#### - T5147\Invoke-StartupFolder
+### - T5147\Invoke-StartupFolder
 
 MITRE | ATT&CK: https://attack.mitre.org/techniques/T1543/003/
 
@@ -175,7 +173,7 @@ Output fields:
 
 <br>
 
-#### - T5147\Invoke-Winlogon
+### - T5147\Invoke-Winlogon
 
 MITRE | ATT&CK: https://attack.mitre.org/techniques/T1547/004/
 
@@ -203,9 +201,9 @@ Output fields :
 <br>
 
 
-### Execution 
+## Execution 
 
-#### - T1204\Invoke-ExecEventLog
+### - T1204\Invoke-ExecEventLog
 
 MITRE | ATT&CK: https://attack.mitre.org/techniques/T1547/004/
 
