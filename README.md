@@ -1,7 +1,7 @@
 
 #  Usage 
 
-
+...
 ```
 git clone https://github.com/tomc0sm/PowerHunt.git
 
